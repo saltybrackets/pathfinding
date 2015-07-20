@@ -12,12 +12,15 @@ namespace PathFinding
 {
 	public class Maze
 	{
+		#region Fields
 		private Bitmap bitmap;
 		private MapFeature[,] features;
-		private Point mazeStart;
 		private Point mazeEnd;
+		private Point mazeStart;
+		#endregion
 
 
+		#region Constructors
 		public Maze(Bitmap bitmap)
 		{
 			this.bitmap = bitmap;
@@ -30,26 +33,82 @@ namespace PathFinding
 		{
 			
 		}
+		#endregion
+
+
+		#region Properties/Indexers
+		public Bitmap Bitmap
+		{
+			get { return this.bitmap; }
+		}
+
+
+		public MapFeature[,] Features
+		{
+			get { return this.features; }
+		}
+
+
+		public Point MazeEnd
+		{
+			get { return this.mazeEnd; }
+		}
+
+
+		public Point MazeStart
+		{
+			get { return this.mazeStart; }
+		}
+		#endregion
+
+
+		public int GetEmptyPixelsAmount()
+		{
+			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
+			return Array.FindAll(mapFeatures, x => x == MapFeature.Empty).Length;
+		}
+
+
+		public int GetEndPixelsAmount()
+		{
+			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
+			return Array.FindAll(mapFeatures, x => x == MapFeature.End).Length;
+		}
+
+
+		public int GetStartPixelsAmount()
+		{
+			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
+			return Array.FindAll(mapFeatures, x => x == MapFeature.Start).Length;
+		}
+
+
+		public int GetWallPixelsAmount()
+		{
+			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
+			return Array.FindAll(mapFeatures, x => x == MapFeature.Wall).Length;
+		}
 
 
 		public override string ToString()
 		{
-			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
-			int startPixels = Array.FindAll(mapFeatures, x => x == MapFeature.Start).Length;
-			int endPixels = Array.FindAll(mapFeatures, x => x == MapFeature.End).Length;
-			int wallPixels = Array.FindAll(mapFeatures, x => x == MapFeature.Wall).Length;
-			int emptyPixels = Array.FindAll(mapFeatures, x => x == MapFeature.Empty).Length;
-
 			return new StringBuilder()
 				.Append("Maze:")
-				.Append("\nStartPixels: ").Append(startPixels)
-				.Append("\nEndPixels: ").Append(endPixels)
-				.Append("\nWallPixels: ").Append(wallPixels)
-				.Append("\nEmptyPixels: ").Append(emptyPixels)
+				.Append("\nEmptyPixels: ").Append(GetEmptyPixelsAmount())
+				.Append("\nWallPixels: ").Append(GetWallPixelsAmount())
+				.Append("\nStartPixels: ").Append(GetStartPixelsAmount())
+				.Append("\nEndPixels: ").Append(GetEndPixelsAmount())
 				.ToString();
 		}
 
-		
+
+		/// <summary>
+		/// Parse a bitmap into map structures by analyzing pixel color.
+		/// <see href="http://stackoverflow.com/questions/6020406/travel-through-pixels-in-bmp">
+		/// Derived from a bitmap pixel analysis algorithm found here.
+		/// </see>
+		/// </summary>
+		/// <param name="bitmap"></param>
 		private void ParseBitmap(Bitmap bitmap)
 		{
 			Rectangle dimensions = new Rectangle(
@@ -90,6 +149,5 @@ namespace PathFinding
 				}
 			}
 		}
-
 	}
 }
