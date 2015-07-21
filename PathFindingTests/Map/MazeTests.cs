@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Runtime.Versioning;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using PathFinding;
 
 
@@ -15,16 +13,17 @@ namespace PathFindingTests
 		[TestMethod]
 		public void ParseMaze1Test()
 		{
-			System.Console.WriteLine("Analyzing maze1.");
+			Console.WriteLine("Analyzing maze1.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze1);
 			CheckMap(maze);
+			maze.SaveMap();
 		}
 
 
 		[TestMethod]
 		public void ParseMaze2Test()
 		{
-			System.Console.WriteLine("Analyzing maze2.");
+			Console.WriteLine("Analyzing maze2.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze2);
 			CheckMap(maze);
 		}
@@ -33,7 +32,7 @@ namespace PathFindingTests
 		[TestMethod]
 		public void ParseMaze3Test()
 		{
-			System.Console.WriteLine("Analyzing maze3.");
+			Console.WriteLine("Analyzing maze3.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze3);
 			CheckMap(maze);
 		}
@@ -41,8 +40,8 @@ namespace PathFindingTests
 
 		private void CheckMap(Maze maze)
 		{
-			System.Console.WriteLine(maze);
-			System.Console.WriteLine();
+			Console.WriteLine(maze);
+			Console.WriteLine();
 
 			int bitmapPixels = maze.Bitmap.Width * maze.Bitmap.Height;
 			int emptyPixels = maze.GetEmptyPixelsAmount();

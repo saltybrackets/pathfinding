@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -112,42 +113,115 @@ namespace PathFinding
 		private void ParseBitmap(Bitmap bitmap)
 		{
 			Rectangle dimensions = new Rectangle(
-				0, 0, 
+				0, 0,
 				bitmap.Width, bitmap.Height);
+			//bitmap = bitmap.Clone(dimensions, PixelFormat.Format24bppRgb);
 			BitmapData data = bitmap.LockBits(
 				dimensions, 
 				ImageLockMode.ReadWrite,
 				bitmap.PixelFormat);
 
-			int scanWidth = data.Stride;
+			int scanWidth = Math.Abs(data.Stride);
 			int byteLength = scanWidth * data.Height;
 			byte[] rgbValues = new byte[byteLength];
 			int r, g, b, pixelBytes;
 			Marshal.Copy(data.Scan0, rgbValues, 0, byteLength);
-			
-			this.features = new MapFeature[data.Width, data.Height];
-			int rgbValuesIndex = 0;
-			for (int column = 0; column < data.Height; column++)
-			{
-				for (int row = 0; row < data.Width; row++)
-				{
-					pixelBytes = row * 3;
-					r = rgbValues[(column * scanWidth) + pixelBytes + 2];
-					g = rgbValues[(column * scanWidth) + pixelBytes + 1];
-					b = rgbValues[(column*scanWidth) + pixelBytes];
-					Color color = Color.FromArgb(r, g, b);
 
-					if (color.ToArgb() == Color.Black.ToArgb())
-						this.features[column, row] = MapFeature.Wall;
-					else if (color.ToArgb() == Color.Red.ToArgb())
-						this.features[column, row] = MapFeature.Start;
-					else if (color.ToArgb() == Color.Blue.ToArgb())
-						this.features[column, row] = MapFeature.End;
-					// Else, it's empty, which is the default enum value.
+			int black = Color.Black.ToArgb();
+			int blue = Color.Blue.ToArgb();
+			int red = Color.Red.ToArgb();
+			int pixelColor;
+
+			this.features = new MapFeature[bitmap.Width, bitmap.Height];
+			int rgbValuesIndex = 0;
+			for (int row = 0; row < bitmap.Width; row++)
+			{
+				for (int column = 0; column < bitmap.Height; column++)
+				{
+					try
+					{
+						pixelBytes = row * 3;
+						r = rgbValues[(column * scanWidth) + pixelBytes + 2];
+						g = rgbValues[(column * scanWidth) + pixelBytes + 1];
+						b = rgbValues[(column*scanWidth) + pixelBytes];
+						pixelColor = Color.FromArgb(r, g, b).ToArgb();
+
+						if (pixelColor == black)
+							this.features[column, row] = MapFeature.Wall;
+						else if (pixelColor == red)
+							this.features[column, row] = MapFeature.Start;
+						else if (pixelColor == blue)
+							this.features[column, row] = MapFeature.End;
+						// Else, it's empty, which is the default enum value.
+					}
+					catch (Exception e)
+					{
+						throw new Exception("Failed with: column:"+column + " row:" + row + "\n" +
+						"Dimensions:" + data.Width + "x" + data.Height, e);
+					}
+					
 
 					rgbValuesIndex++;
 				}
 			}
+		}
+
+
+		public void SaveMap()
+		{
+			int width = this.features.GetLength(0);
+			int height = this.features.GetLength(1);
+
+			Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+
+			ColorPalette ncp = bitmap.Palette;
+			for (int i = 0; i < 256; i++)
+				ncp.Entries[i] = Color.FromArgb(255, i, i, i);
+			bitmap.Palette = ncp;
+
+			Rectangle BoundsRect = new Rectangle(0, 0, width, height);
+			BitmapData bmpData = bitmap.LockBits(BoundsRect,
+											ImageLockMode.WriteOnly,
+											bitmap.PixelFormat);
+
+			IntPtr ptr = bmpData.Scan0;
+
+			int bytes = bmpData.Stride*bitmap.Height;
+			byte[] rgbValues = new byte[bytes];
+
+			int color;
+			int rgbValuesIndex = 0;
+			for (int row = 0; row < width; row++)
+			{
+				for (int column = 0; column < height; column++)
+				{
+					
+					if (this.features[column, row] == MapFeature.End)
+					{
+						color = Color.Blue.ToArgb();
+					}
+					else if (this.features[column, row] == MapFeature.Start)
+					{
+						color = Color.Red.ToArgb();
+					}
+					else if (this.features[column, row] == MapFeature.Wall)
+					{
+						color = Color.Black.ToArgb();
+					}
+					else
+					{
+						color = Color.White.ToArgb();
+					}
+
+					rgbValues[rgbValuesIndex] = (byte)color;
+					
+					rgbValuesIndex++;
+				}
+			}
+
+			Marshal.Copy(rgbValues, 0, ptr, bytes);
+			bitmap.UnlockBits(bmpData);
+			bitmap.Save("output.bmp");
 		}
 	}
 }
