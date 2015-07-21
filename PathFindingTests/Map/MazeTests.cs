@@ -16,7 +16,7 @@ namespace PathFindingTests
 			Console.WriteLine("Analyzing maze1.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze1);
 			CheckMap(maze);
-			maze.SaveMap();
+			maze.SaveMap("maze1.bmp");
 		}
 
 
@@ -26,6 +26,7 @@ namespace PathFindingTests
 			Console.WriteLine("Analyzing maze2.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze2);
 			CheckMap(maze);
+			maze.SaveMap("maze2.bmp");
 		}
 
 
@@ -35,6 +36,7 @@ namespace PathFindingTests
 			Console.WriteLine("Analyzing maze3.");
 			Maze maze = new Maze(PathFindingTests.Properties.Resources.maze3);
 			CheckMap(maze);
+			maze.SaveMap("maze3.bmp");
 		}
 
 

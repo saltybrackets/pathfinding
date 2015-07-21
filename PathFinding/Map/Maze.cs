@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -13,6 +12,9 @@ namespace PathFinding
 {
 	public class Maze
 	{
+
+		public const PixelFormat PixelFormat = System.Drawing.Imaging.PixelFormat.Format24bppRgb;
+
 		#region Fields
 		private Bitmap bitmap;
 		private MapFeature[,] features;
@@ -115,7 +117,7 @@ namespace PathFinding
 			Rectangle dimensions = new Rectangle(
 				0, 0,
 				bitmap.Width, bitmap.Height);
-			//bitmap = bitmap.Clone(dimensions, PixelFormat.Format24bppRgb);
+			bitmap = bitmap.Clone(dimensions, PixelFormat);
 			BitmapData data = bitmap.LockBits(
 				dimensions, 
 				ImageLockMode.ReadWrite,
@@ -143,8 +145,8 @@ namespace PathFinding
 						pixelBytes = row * 3;
 						r = rgbValues[(column * scanWidth) + pixelBytes + 2];
 						g = rgbValues[(column * scanWidth) + pixelBytes + 1];
-						b = rgbValues[(column*scanWidth) + pixelBytes];
-						pixelColor = Color.FromArgb(r, g, b).ToArgb();
+						b = rgbValues[(column * scanWidth) + pixelBytes + 0];
+						pixelColor = Color.FromArgb(255, r, g, b).ToArgb();
 
 						if (pixelColor == black)
 							this.features[column, row] = MapFeature.Wall;
@@ -167,61 +169,10 @@ namespace PathFinding
 		}
 
 
-		public void SaveMap()
+		public void SaveMap(string path = "output.bmp")
 		{
-			int width = this.features.GetLength(0);
-			int height = this.features.GetLength(1);
-
-			Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
-
-			ColorPalette ncp = bitmap.Palette;
-			for (int i = 0; i < 256; i++)
-				ncp.Entries[i] = Color.FromArgb(255, i, i, i);
-			bitmap.Palette = ncp;
-
-			Rectangle BoundsRect = new Rectangle(0, 0, width, height);
-			BitmapData bmpData = bitmap.LockBits(BoundsRect,
-											ImageLockMode.WriteOnly,
-											bitmap.PixelFormat);
-
-			IntPtr ptr = bmpData.Scan0;
-
-			int bytes = bmpData.Stride*bitmap.Height;
-			byte[] rgbValues = new byte[bytes];
-
-			int color;
-			int rgbValuesIndex = 0;
-			for (int row = 0; row < width; row++)
-			{
-				for (int column = 0; column < height; column++)
-				{
-					
-					if (this.features[column, row] == MapFeature.End)
-					{
-						color = Color.Blue.ToArgb();
-					}
-					else if (this.features[column, row] == MapFeature.Start)
-					{
-						color = Color.Red.ToArgb();
-					}
-					else if (this.features[column, row] == MapFeature.Wall)
-					{
-						color = Color.Black.ToArgb();
-					}
-					else
-					{
-						color = Color.White.ToArgb();
-					}
-
-					rgbValues[rgbValuesIndex] = (byte)color;
-					
-					rgbValuesIndex++;
-				}
-			}
-
-			Marshal.Copy(rgbValues, 0, ptr, bytes);
-			bitmap.UnlockBits(bmpData);
-			bitmap.Save("output.bmp");
+			// TODO: Just use a different library.
 		}
+
 	}
 }
