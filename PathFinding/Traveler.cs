@@ -6,7 +6,7 @@ namespace PathFinding
     public class Traveler
     {
 	    private Point position;
-	    private Maze maze;
+	    private MazeData mazeData;
 
 
     }

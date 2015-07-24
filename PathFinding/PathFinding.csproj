@@ -37,8 +37,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map\MapFeature.cs" />
-    <Compile Include="Map\Maze.cs" />
+    <Compile Include="Maze\MapFeature.cs" />
+    <Compile Include="Maze\Maze.cs" />
+    <Compile Include="Maze\MazeData.cs" />
     <Compile Include="Junction.cs" />
     <Compile Include="Physics\Direction.cs" />
     <Compile Include="Physics\Point.cs" />

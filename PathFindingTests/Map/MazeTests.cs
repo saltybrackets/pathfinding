@@ -45,7 +45,7 @@ namespace PathFindingTests
 			Console.WriteLine(maze);
 			Console.WriteLine();
 
-			int bitmapPixels = maze.Bitmap.Width * maze.Bitmap.Height;
+			int bitmapPixels = maze.Data.Bitmap.Width * maze.Data.Bitmap.Height;
 			int emptyPixels = maze.GetEmptyPixelsAmount();
 			int endPixels = maze.GetEndPixelsAmount();
 			int startPixels = maze.GetStartPixelsAmount();
