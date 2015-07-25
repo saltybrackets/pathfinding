@@ -5,8 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PathFinding.Map;
+using Color = System.Drawing.Color;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 
 namespace PathFinding
@@ -15,6 +18,7 @@ namespace PathFinding
     {
         #region Constants
         public const PixelFormat DefaultPixelFormat = PixelFormat.Format24bppRgb;
+        public const int BytesPerPixel = 4;
         #endregion
 
 
@@ -71,27 +75,8 @@ namespace PathFinding
             MapFeature[] mapFeatures = this.data.Features.Cast<MapFeature>().ToArray();
             return Array.FindAll(mapFeatures, x => x == MapFeature.Wall).Length;
         }
-
-
-        private static BitmapImage LoadImage(byte[] imageData)
-        {
-            if (imageData == null || imageData.Length == 0) return null;
-            BitmapImage image = new BitmapImage();
-            using (MemoryStream mem = new MemoryStream(imageData))
-            {
-                mem.Position = 0;
-                image.BeginInit();
-                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = null;
-                image.StreamSource = mem;
-                image.EndInit();
-            }
-            image.Freeze();
-            return image;
-        }
-
-
+        
+        
         public override string ToString()
         {
             return new StringBuilder()
@@ -101,6 +86,51 @@ namespace PathFinding
                 .Append("\nStartPixels: ").Append(GetStartPixelsAmount())
                 .Append("\nEndPixels: ").Append(GetEndPixelsAmount())
                 .ToString();
+        }
+
+
+        public void SaveMap(string path)
+        {
+            int width = this.data.Features.GetLength(0);
+            int height = this.data.Features.GetLength(1);
+            int stride = width * BytesPerPixel;
+
+            byte[] pixels = new byte[height * stride];
+            Color color;
+            int pixelIndex = 0;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    switch (this.data.Features[x, y])
+                    {
+                        default:
+                            color = Color.White;
+                            break;
+                        case MapFeature.End:
+                            color = Color.Blue;
+                            break;
+                        case MapFeature.Start:
+                            color = Color.Red;
+                            break;
+                        case MapFeature.Wall:
+                            color = Color.Black;
+                            break;
+                    }
+                    pixelIndex = (x*BytesPerPixel) + (y*stride);
+                    pixels[pixelIndex] = color.B;
+                    pixels[pixelIndex + 1] = color.G;
+                    pixels[pixelIndex + 2] = color.R;
+                    pixels[pixelIndex + 3] = color.A;
+                }
+            }
+
+            BitmapSource bitmapSource = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels, stride);
+
+            BitmapEncoder encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+            using (FileStream filestream = new FileStream(path, FileMode.Create))
+                encoder.Save(filestream);
         }
 
 
