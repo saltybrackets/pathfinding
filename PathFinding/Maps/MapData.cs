@@ -1,11 +1,9 @@
 ﻿using System.Drawing;
 
-using PathFinding.Map;
-
 
 namespace PathFinding
 {
-	public class MazeData
+	public class MapData
 	{
 
 		#region Fields
@@ -17,7 +15,7 @@ namespace PathFinding
 
 
 		#region Constructors
-	    public MazeData(Bitmap bitmap, MapFeature[,] features, Point mazeStart, Point mazeEnd)
+	    public MapData(Bitmap bitmap, MapFeature[,] features, Point mazeStart, Point mazeEnd)
 	    {
 	        this.bitmap = bitmap;
 	        this.features = features;

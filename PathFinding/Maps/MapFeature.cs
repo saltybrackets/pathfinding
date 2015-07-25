@@ -1,6 +1,4 @@
-﻿
-
-namespace PathFinding.Map
+﻿namespace PathFinding
 {
 	public enum MapFeature
 	{
