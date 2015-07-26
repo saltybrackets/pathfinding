@@ -7,7 +7,7 @@ namespace PathFinding
 	{
 
 		#region Fields
-		private readonly Bitmap bitmap;
+		private readonly Bitmap originalBitmap;
 		private readonly MapFeature[,] features;
 		private readonly Point mazeEnd;
 		private readonly Point mazeStart;
@@ -15,9 +15,9 @@ namespace PathFinding
 
 
 		#region Constructors
-	    public MapData(Bitmap bitmap, MapFeature[,] features, Point mazeStart, Point mazeEnd)
+	    public MapData(Bitmap originalBitmap, MapFeature[,] features, Point mazeStart, Point mazeEnd)
 	    {
-	        this.bitmap = bitmap;
+	        this.originalBitmap = originalBitmap;
 	        this.features = features;
             this.mazeStart = mazeStart;
             this.mazeEnd = mazeEnd;
@@ -26,9 +26,9 @@ namespace PathFinding
 
 
 		#region Properties/Indexers
-		public Bitmap Bitmap
+		public Bitmap OriginalBitmap
 		{
-			get { return this.bitmap; }
+			get { return this.originalBitmap; }
 		}
 
 
