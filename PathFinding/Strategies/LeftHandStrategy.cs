@@ -1,13 +1,10 @@
-﻿namespace PathFinding
+﻿namespace PathFinding.Strategies
 {
 	public class LeftHandStrategy :
 		ITraversalStrategy
 	{
 
-		public Directions ChoosePath()
-		{
-			throw new System.NotImplementedException();
-		}
+		
 
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 
 
-namespace PathFinding
+namespace PathFinding.Maps
 {
 	public class MapData
 	{

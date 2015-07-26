@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace PathFinding
+namespace PathFinding.Geometry
 {
 	public struct Point
 	{
@@ -40,9 +40,11 @@ namespace PathFinding
 
 		public static double DistanceTo(this Point origin, Point destination)
 		{
-			double a2 = (origin.X - destination.X) ^ 2;
-			double b2 = (origin.Y - destination.Y) ^ 2;
-			return Math.Abs(Math.Sqrt(a2 + b2));
+			int xDiff = origin.X - destination.X;
+			int yDiff = origin.Y - destination.Y;
+            double a2 = xDiff * xDiff;
+			double b2 = yDiff * yDiff;
+			return Math.Sqrt(Math.Abs(a2 + b2));
 		}
 
 

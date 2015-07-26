@@ -1,9 +1,7 @@
-﻿namespace PathFinding
+﻿namespace PathFinding.Strategies
 {
 	public interface ITraversalStrategy
 	{
-
-		Directions ChoosePath();
-
+		
 	}
 }

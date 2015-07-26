@@ -1,9 +1,9 @@
-﻿namespace PathFinding.Physics
+﻿namespace PathFinding.Geometry
 {
 	/// <summary>
 	/// Encapsulate information 
 	/// </summary>
-	public class RaycastData
+	public class Line
 	{
 		#region Fields
 		private readonly Point endPosition;
@@ -12,7 +12,7 @@
 
 
 		#region Constructors
-		public RaycastData(Point startPosition, Point endPosition)
+		public Line(Point startPosition, Point endPosition)
 		{
 			this.startPosition = startPosition;
 			this.endPosition = endPosition;

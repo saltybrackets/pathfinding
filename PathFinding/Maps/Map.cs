@@ -11,7 +11,7 @@ using Color = System.Drawing.Color;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 
-namespace PathFinding
+namespace PathFinding.Maps
 {
 	public class Map
 	{
