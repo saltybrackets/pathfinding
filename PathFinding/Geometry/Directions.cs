@@ -8,18 +8,23 @@ namespace PathFinding.Geometry
 	/// </summary>
 	[Flags] public enum Directions
 	{
-
 		None = 0,
 		Up = 1,
 		Down = 2,
 		Left = 4,
 		Right = 8,
-		UpperLeft = Up | Left,
-		UpperRight = Up | Right,
-		LowerLeft = Down | Left,
-		LowerRight = Down | Right,
-		All = Up | Down | Left | Right
+		UpperLeft = 16,
+		UpperRight = 32,
+		LowerLeft = 64,
+		LowerRight = 128,
+		All = Up | UpperRight | Right | LowerRight | Down | LowerLeft | Left | UpperLeft
+	}
 
+	
+	public enum Rotation
+	{
+		Clockwise,
+		CounterClockwise
 	}
 
 
@@ -29,17 +34,7 @@ namespace PathFinding.Geometry
 	/// </summary>
 	public static class DirectionUtilities
 	{
-		#region Enums
-		public enum Rotation
-		{
-
-			Clockwise,
-			CounterClockwise
-
-		}
-		#endregion
-
-
+		
 		public static bool HasDown(this Directions directions)
 		{
 			return (directions & Directions.Down) == Directions.Down;
@@ -64,12 +59,6 @@ namespace PathFinding.Geometry
 		}
 
 
-		public static bool HasLUpperRight(this Directions directions)
-		{
-			return (directions & Directions.UpperRight) == Directions.UpperRight;
-		}
-
-
 		public static bool HasRight(this Directions directions)
 		{
 			return (directions & Directions.Right) == Directions.Right;
@@ -85,6 +74,12 @@ namespace PathFinding.Geometry
 		public static bool HasUpperLeft(this Directions directions)
 		{
 			return (directions & Directions.UpperLeft) == Directions.UpperLeft;
+		}
+
+
+		public static bool HasUpperRight(this Directions directions)
+		{
+			return (directions & Directions.UpperRight) == Directions.UpperRight;
 		}
 
 

@@ -11,6 +11,18 @@
 		#endregion
 
 
+		#region Constructors
+		public Transform() {}
+
+
+		public Transform(Directions currentDirection, Point position)
+		{
+			this.currentDirection = currentDirection;
+			this.position = position;
+		}
+		#endregion
+
+
 		#region Properties
 		public Directions CurrentDirection
 		{
