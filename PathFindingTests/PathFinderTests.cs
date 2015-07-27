@@ -1,28 +1,49 @@
-﻿using System;
+﻿using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PathFinding;
 using PathFinding.Maps;
+using PathFinding.Strategies;
 
 
 namespace PathFindingTests
 {
-	[TestClass]
+	
 	public class PathFinderTests
 	{
 
-		Map simpleMap = new Map(Properties.Resources.maze1);
+		private Bitmap simpleMap = Properties.Resources.maze1;
+		private Bitmap largeMap = Properties.Resources.maze2;
+		private Bitmap organicMap = Properties.Resources.maze3;
 
+
+		[TestClass]
 		public class FindPathMethod : PathFinderTests
 		{
 
-			
-
 			[TestMethod]
-			public void FindPathWithLeftHandStrategy()
+			public void FindPathWithBreadthFirstStrategy()
 			{
+				Map map;
+				ITraversalStrategy strategy = Strategies.BreadthFirst;
 				
-				PathFinder pathFinder = new PathFinder();
+				MapPath solution;
 
+				map = new Map(this.simpleMap);
+				solution = PathFinder.FindPath(map, strategy);
+				PathFinder.OutputBitmap(solution, map, "simpleSolution.bmp");
+				Assert.IsNotNull(solution);
+
+				map = new Map(this.largeMap);
+				solution = PathFinder.FindPath(map, strategy);
+				PathFinder.OutputBitmap(solution, map, "largeSolution.bmp");
+				Assert.IsNotNull(solution);
+
+				// TODO: Technically, this fails, because the path goes through
+				// some diagonal walls.
+				map = new Map(this.organicMap);
+				solution = PathFinder.FindPath(map, strategy);
+				PathFinder.OutputBitmap(solution, map, "organicSolution.bmp");
+				Assert.IsNotNull(solution);
 			}
 			
 		}

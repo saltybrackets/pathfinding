@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PathFinding.Geometry;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PathFinding.Maps;
 
 
 namespace PathFindingTests.Geometry

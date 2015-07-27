@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PathFinding.Geometry;
+using PathFinding;
 
 
 namespace PathFindingTests.Geometry
@@ -15,8 +15,8 @@ namespace PathFindingTests.Geometry
 			[TestMethod]
 			public void CalculateDiagonal()
 			{
-				Point start = new Point(0, 0);
-				Point end = new Point(3, 4);
+				Position start = new Position(0, 0);
+				Position end = new Position(3, 4);
 				Assert.AreEqual(5, start.DistanceTo(end));
 			}
 
@@ -24,8 +24,8 @@ namespace PathFindingTests.Geometry
 			[TestMethod]
 			public void CalculateHorizontal()
 			{
-				Point start = new Point(0, 0);
-				Point end = new Point(5, 0);
+				Position start = new Position(0, 0);
+				Position end = new Position(5, 0);
 				Assert.AreEqual(5, start.DistanceTo(end));
 			}
 
@@ -33,8 +33,8 @@ namespace PathFindingTests.Geometry
 			[TestMethod]
 			public void CalculateVertical()
 			{
-				Point start = new Point(0, 0);
-				Point end = new Point(0, 5);
+				Position start = new Position(0, 0);
+				Position end = new Position(0, 5);
 				Assert.AreEqual(5, start.DistanceTo(end));
 			}
 
@@ -48,9 +48,9 @@ namespace PathFindingTests.Geometry
 			[TestMethod]
 			public void CheckX()
 			{
-				Point point = new Point(0, 0);
-				point = point.SetX(5);
-				Assert.AreEqual(5, point.X);
+				Position position = new Position(0, 0);
+				position = position.SetX(5);
+				Assert.AreEqual(5, position.X);
 			}
 
 		}
@@ -63,9 +63,9 @@ namespace PathFindingTests.Geometry
 			[TestMethod]
 			public void CheckY()
 			{
-				Point point = new Point(0, 0);
-				point = point.SetY(5);
-				Assert.AreEqual(5, point.Y);
+				Position position = new Position(0, 0);
+				position = position.SetY(5);
+				Assert.AreEqual(5, position.Y);
 			}
 
 		}

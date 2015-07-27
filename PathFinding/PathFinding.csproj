@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PathFinding</RootNamespace>
     <AssemblyName>PathFinding</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,18 +41,21 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geometry\Directions.cs" />
-    <Compile Include="Geometry\Point.cs" />
-    <Compile Include="Geometry\Line.cs" />
-    <Compile Include="Geometry\Transform.cs" />
+    <Compile Include="Directions.cs" />
     <Compile Include="Maps\MapFeature.cs" />
     <Compile Include="Maps\Map.cs" />
-    <Compile Include="Maps\MapData.cs" />
+    <Compile Include="Maps\MapPath.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="Search\ISearchNode.cs" />
+    <Compile Include="Search\BreadthFirstSearchGraph.cs" />
+    <Compile Include="Strategies\BreadthFirstStrategy.cs" />
+    <Compile Include="IGraph.cs" />
     <Compile Include="Strategies\ITraversalStrategy.cs" />
-    <Compile Include="Strategies\LeftHandStrategy.cs" />
     <Compile Include="PathFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategies\Strategies.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

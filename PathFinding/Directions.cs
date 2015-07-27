@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace PathFinding.Geometry
+namespace PathFinding.Maps
 {
 	/// <summary>
 	/// Flags for holding directional information.

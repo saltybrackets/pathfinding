@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PathFinding.Maps;
@@ -14,6 +15,44 @@ namespace PathFindingTests
 		private Bitmap organicMap = Properties.Resources.maze3;
 
 		[TestClass]
+		public class GetSurroundingCellsMethod : MapTests 
+		{
+
+			[TestMethod]
+			public void InsideMap()
+			{
+				Map map = new Map(this.simpleMap);
+				List<MapFeature> cells = 
+					map.GetSurroundingElements(44, 396);
+
+				Assert.AreEqual(8, cells.Count);
+				Assert.AreEqual(MapFeature.Wall, cells[1]);
+				Assert.AreEqual(MapFeature.End, cells[3]);
+			}
+
+
+			[TestMethod]
+			public void MapEdges()
+			{
+				Map map = new Map(this.simpleMap);
+				List<MapFeature> cells;
+
+				// Upper left.
+				cells = map.GetSurroundingElements(0, 0);
+				Assert.AreEqual(3, cells.Count);
+				Assert.AreEqual(MapFeature.Wall, cells[0]);
+				Assert.AreEqual(MapFeature.Empty, cells[2]);
+
+				// Lower Right.
+				cells = map.GetSurroundingElements(440, 440);
+				Assert.AreEqual(3, cells.Count);
+				Assert.AreEqual(MapFeature.Empty, cells[0]);
+				Assert.AreEqual(MapFeature.Wall, cells[2]);	
+			}
+		}
+
+		
+		[TestClass]
 		public class LoadBitmapMethod : MapTests
 		{
 
@@ -22,6 +61,7 @@ namespace PathFindingTests
 			{
 				Map map = new Map(this.simpleMap);
 				CheckMap(map);
+				//map.SaveBitmap("output.bmp");
 			}
 
 
@@ -45,21 +85,24 @@ namespace PathFindingTests
 			{
 				Console.WriteLine(map);
 				Console.WriteLine();
-
-				int bitmapPixels = map.Data.OriginalBitmap.Width * map.Data.OriginalBitmap.Height;
+				
 				int emptyPixels = map.GetEmptyPixelsAmount();
 				int endPixels = map.GetEndPixelsAmount();
 				int startPixels = map.GetStartPixelsAmount();
 				int wallPixels = map.GetWallPixelsAmount();
-				int totalFeatures = emptyPixels + endPixels + startPixels + wallPixels;
-
+				int totalFeatures = 
+					emptyPixels + endPixels + startPixels + wallPixels;
+				int bitmapPixels =
+					map.Width * map.Height;
+				
 				Assert.AreNotEqual(emptyPixels, 0);
 				Assert.AreNotEqual(endPixels, 0);
 				Assert.AreNotEqual(startPixels, 0);
 				Assert.AreNotEqual(wallPixels, 0);
 				Assert.AreEqual(totalFeatures, bitmapPixels);
+				Assert.IsNotNull(map.StartPosition);
+				Assert.IsNotNull(map.EndPosition);
 			}
-
 		}
 
 		

@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace PathFinding.Geometry
+namespace PathFinding
 {
-	public struct Point
+	public struct Position
 	{
 		#region Fields
 		private readonly int x;
@@ -12,7 +12,7 @@ namespace PathFinding.Geometry
 
 
 		#region Constructors
-		public Point(int x, int y)
+		public Position(int x, int y)
 		{
 			this.x = x;
 			this.y = y;
@@ -38,25 +38,25 @@ namespace PathFinding.Geometry
 	public static class PointUtilities
 	{
 
-		public static double DistanceTo(this Point origin, Point destination)
+		public static double DistanceTo(this Position origin, Position destination)
 		{
 			int xDiff = origin.X - destination.X;
 			int yDiff = origin.Y - destination.Y;
-            double a2 = xDiff * xDiff;
+			double a2 = xDiff * xDiff;
 			double b2 = yDiff * yDiff;
 			return Math.Sqrt(Math.Abs(a2 + b2));
 		}
 
 
-		public static Point SetX(this Point point, int newX)
+		public static Position SetX(this Position position, int newX)
 		{
-			return new Point(newX, point.Y);
+			return new Position(newX, position.Y);
 		}
 
 
-		public static Point SetY(this Point point, int newY)
+		public static Position SetY(this Position position, int newY)
 		{
-			return new Point(point.X, newY);
+			return new Position(position.X, newY);
 		}
 
 	}
