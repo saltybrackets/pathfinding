@@ -6,12 +6,16 @@ using PathFinding.Maps;
 using PathFinding.Strategies;
 
 
-namespace Console
+namespace CommandLine
 {
+	/// <summary>
+	/// Command line interface for PathFinding features.
+	/// </summary>
 	class Program
 	{
 		static void Main(string[] args)
 		{
+			// Display help.
 			if ((args.Length == 0) ||
 			    (args[0] == "-?") ||
 			    (args[0] == "/?") ||
@@ -24,13 +28,18 @@ namespace Console
 			// Forgot to specify solution path.
 			if (args.Length < 2)
 			{
-				System.Console.WriteLine("No destination image path specified.");
+				Console.WriteLine("No destination image path specified.");
 				return;
 			}
 
 			// Collect file paths.
 			string sourcePath = args[0];
 			string outputPath = args[1];
+			
+			// Optional strategy option specified.
+			string strategyOption = null;
+			if (args.Length > 2)
+				strategyOption = args[2];
 
 			// Attempt to load the image.
 			Bitmap sourceImage;
@@ -40,19 +49,19 @@ namespace Console
 			}
 			catch (Exception)
 			{
-				System.Console.WriteLine("Source file is not a valid image format.");
+				Console.WriteLine("Source file is not a valid image format.");
 				return;
 			}
 			
 			// TODO: Allow other strategies if time allows.
 			Map map = new Map(sourceImage);
-			MapPath path = PathFinder.FindPath(map, Strategies.BreadthFirst);
+			MapPath path = PathFinder.FindPath(map, Strategies.BreadthFirst, strategyOption);
 
 			// No solution found.
 			if (path == null)
 			{
-				System.Console.WriteLine("No path could be found to solve the maze.");
-				System.Console.WriteLine("Are you using the correct colors?");
+				Console.WriteLine("No path could be found to solve the maze.");
+				Console.WriteLine("Are you using the correct colors?");
 				return;
 			}
 
@@ -61,6 +70,9 @@ namespace Console
 		}
 
 	
+		/// <summary>
+		/// Show usage instructions for command line interface.
+		/// </summary>
 		static void OutputHelp()
 		{
 			string output = new StringBuilder()
@@ -74,11 +86,13 @@ namespace Console
 				.AppendLine("Walls should be black, empty spaces white.")
 				.AppendLine("Start points should be red pixels.")
 				.AppendLine("End points should be blue.")
-				.AppendLine("Maps must use only pure black, white, red, and blue pixels to be solved properly.")
+				.AppendLine("Maps must use only pure black/white/red/blue pixels to be solved properly.")
 				.AppendLine("Output solution will have path marked in lime green.")
+				.AppendLine()
+				.AppendLine("There is an optional third parameter. Consult your local wizard for details.")
 				.ToString();
 			
-			System.Console.WriteLine(output);
+			Console.WriteLine(output);
 		}
 	}
 }

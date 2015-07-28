@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using PathFinding.Search;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 
 
 namespace PathFinding.Maps
 {
 	/// <summary>
-	/// Facade for map paths.
+	/// Simplified facade for map paths to more easily handle path nodes.
 	/// </summary>
 	public class MapPath
 	{
@@ -19,6 +18,10 @@ namespace PathFinding.Maps
 
 
 		#region Constructors
+		/// <summary>
+		/// Create a new MapPath object from a graph search node series.
+		/// </summary>
+		/// <param name="path">Graph search node containing path node series.</param>
 		public MapPath(IGraphSearchNode<MapFeature> path)
 		{
 			this.pathNodes = new List<IGraphSearchNode<MapFeature>>();
@@ -36,6 +39,9 @@ namespace PathFinding.Maps
 
 
 		#region Properties
+		/// <summary>
+		/// Get all path waypoints nodes.
+		/// </summary>
 		public List<IGraphSearchNode<MapFeature>> PathNodes
 		{
 			get { return this.pathNodes; }
@@ -43,12 +49,24 @@ namespace PathFinding.Maps
 		#endregion
 
 
+		/// <summary>
+		/// Trace path over pixels of a given map.
+		/// Traces in lime green by default.
+		/// </summary>
+		/// <param name="map">Map to trace over.</param>
+		/// <returns>Pixel byte array representing traced over map.</returns>
 		public byte[] TraceOverMap(Map map)
 		{
 			return TraceOverMap(map, Color.Lime);
 		}
 
 
+		/// <summary>
+		/// Trace path over pixels of a given map in a given color.
+		/// </summary>
+		/// <param name="map">Map to trace over.</param>
+		/// <param name="color">Color to trace in.</param>
+		/// <returns>Pixel byte array representing traced over map.</returns>
 		public byte[] TraceOverMap(Map map, Color color)
 		{
 			// Get pixels from original map data.

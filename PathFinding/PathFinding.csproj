@@ -46,8 +46,10 @@
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapPath.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="Search\BreadthFirst\BreadthFirstSearch.cs" />
+    <Compile Include="Search\BreadthFirst\BreadthFirstSearchQuery.cs" />
+    <Compile Include="Search\BreadthFirst\BreadthFirstSearchNode.cs" />
     <Compile Include="Search\ISearchNode.cs" />
-    <Compile Include="Search\BreadthFirstSearchGraph.cs" />
     <Compile Include="Strategies\BreadthFirstStrategy.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="Strategies\ITraversalStrategy.cs" />

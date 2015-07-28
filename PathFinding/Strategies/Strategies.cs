@@ -11,6 +11,9 @@
 
 
 		#region Properties
+		/// <summary>
+		/// Breadth-First traversal strategy for pathfinding.
+		/// </summary>
 		public static ITraversalStrategy BreadthFirst
 		{
 			get

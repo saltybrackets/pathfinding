@@ -1,16 +1,29 @@
 ﻿namespace PathFinding.Search
 {
-	public interface ISearchNode<T>
+	public interface ISearchNode
 	{
-		T Item { get; }
-		ISearchNode<T> PreviousNode { get; } 
+		ISearchNode PreviousNode { get; } 
+	}
+
+	public interface ISearchNode<T> :
+		ISearchNode
+	{
+		T Element { get; }
+	}
+
+
+	public interface IGraphSearchNode :
+		ISearchNode
+	{
+		int X { get; }
+		int Y { get; }
 	}
 
 
 	public interface IGraphSearchNode<T> :
-	ISearchNode<T>
+		IGraphSearchNode,
+		ISearchNode<T>
 	{
-		int X { get; }
-		int Y { get; }
+		
 	}
 }

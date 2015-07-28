@@ -14,43 +14,7 @@ namespace PathFindingTests
 		private Bitmap largeMap = Properties.Resources.maze2;
 		private Bitmap organicMap = Properties.Resources.maze3;
 
-		[TestClass]
-		public class GetSurroundingCellsMethod : MapTests 
-		{
-
-			[TestMethod]
-			public void InsideMap()
-			{
-				Map map = new Map(this.simpleMap);
-				List<MapFeature> cells = 
-					map.GetSurroundingElements(44, 396);
-
-				Assert.AreEqual(8, cells.Count);
-				Assert.AreEqual(MapFeature.Wall, cells[1]);
-				Assert.AreEqual(MapFeature.End, cells[3]);
-			}
-
-
-			[TestMethod]
-			public void MapEdges()
-			{
-				Map map = new Map(this.simpleMap);
-				List<MapFeature> cells;
-
-				// Upper left.
-				cells = map.GetSurroundingElements(0, 0);
-				Assert.AreEqual(3, cells.Count);
-				Assert.AreEqual(MapFeature.Wall, cells[0]);
-				Assert.AreEqual(MapFeature.Empty, cells[2]);
-
-				// Lower Right.
-				cells = map.GetSurroundingElements(440, 440);
-				Assert.AreEqual(3, cells.Count);
-				Assert.AreEqual(MapFeature.Empty, cells[0]);
-				Assert.AreEqual(MapFeature.Wall, cells[2]);	
-			}
-		}
-
+		
 		
 		[TestClass]
 		public class LoadBitmapMethod : MapTests

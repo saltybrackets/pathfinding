@@ -19,9 +19,12 @@ namespace PathFinding
 		/// <param name="map">Map to solve.</param>
 		/// <param name="strategy">Strategy to use to solve the map.</param>
 		/// <returns></returns>
-		public static MapPath FindPath(Map map, ITraversalStrategy strategy)
+		public static MapPath FindPath(
+			Map map, 
+			ITraversalStrategy strategy, 
+			string options = null)
 		{
-			return new MapPath(strategy.Traverse(map));
+			return new MapPath(strategy.Traverse(map, options));
 		}
 
 

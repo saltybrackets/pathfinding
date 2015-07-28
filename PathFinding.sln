@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{53B1B4A5-1FDF-41EF-BEA9-652E91A7D2EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "CommandLine\CommandLine.csproj", "{53B1B4A5-1FDF-41EF-BEA9-652E91A7D2EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathFinding", "PathFinding\PathFinding.csproj", "{6015AECE-1F1C-4369-9F68-C7412E47CF8D}"
 EndProject

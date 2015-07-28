@@ -6,6 +6,6 @@ namespace PathFinding.Strategies
 {
 	public interface ITraversalStrategy
 	{
-		IGraphSearchNode<MapFeature> Traverse(Map map);
+		IGraphSearchNode<MapFeature> Traverse(Map map, string options);
 	}
 }

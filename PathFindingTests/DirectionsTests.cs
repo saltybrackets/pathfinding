@@ -2,7 +2,7 @@
 using PathFinding.Maps;
 
 
-namespace PathFindingTests.Geometry
+namespace PathFindingTests
 {
 	
 	public class DirectionsTests

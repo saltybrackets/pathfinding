@@ -3,6 +3,9 @@
 
 namespace PathFinding
 {
+	/// <summary>
+	/// Simple structure for encapsulating positional information.
+	/// </summary>
 	public struct Position
 	{
 		#region Fields
@@ -21,12 +24,18 @@ namespace PathFinding
 
 
 		#region Properties
+		/// <summary>
+		/// Horizontal X coordinate of position.
+		/// </summary>
 		public int X
 		{
 			get { return this.x; }
 		}
 
 
+		/// <summary>
+		/// Vertical Y coordinate of position.
+		/// </summary>
 		public int Y
 		{
 			get { return this.y; }
@@ -37,7 +46,12 @@ namespace PathFinding
 
 	public static class PointUtilities
 	{
-
+		/// <summary>
+		/// Get the straight-line distance between two points.
+		/// </summary>
+		/// <param name="origin">Starting point.</param>
+		/// <param name="destination">Ending point.</param>
+		/// <returns></returns>
 		public static double DistanceTo(this Position origin, Position destination)
 		{
 			int xDiff = origin.X - destination.X;
@@ -48,12 +62,24 @@ namespace PathFinding
 		}
 
 
+		/// <summary>
+		/// Clone a new Position object with the given X.
+		/// </summary>
+		/// <param name="position">Position to clone.</param>
+		/// <param name="newX">New X value.</param>
+		/// <returns></returns>
 		public static Position SetX(this Position position, int newX)
 		{
 			return new Position(newX, position.Y);
 		}
 
 
+		/// <summary>
+		/// Clone a new Position object with the given Y.
+		/// </summary>
+		/// <param name="position">Position to clone.</param>
+		/// <param name="newY">New Y value.</param>
+		/// <returns></returns>
 		public static Position SetY(this Position position, int newY)
 		{
 			return new Position(position.X, newY);

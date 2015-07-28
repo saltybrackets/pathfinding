@@ -3,22 +3,22 @@
 
 namespace PathFinding
 {
+	/// <summary>
+	/// Implemented by objects containing an orthogonal 2D collection of items.
+	/// </summary>
+	/// <typeparam name="T">Type of objects contained in collection.</typeparam>
 	public interface IGraph<T>
 	{
 		int Width { get; }
 		int Height { get; }
 
-		List<T> GetAdjacentElements(int x, int y);
+		List<T> GetNeighborElements(int x, int y);
 		T GetElement(int x, int y);
-		List<T> GetSurroundingElements(int x, int y);
 	}
 
 
 	/// <summary>
-	/// Basic implementations of some interface methods.
-	/// 
-	/// Note: These could be made into extension methods, 
-	/// but would result in difficulties overriding.
+	/// Contains default implementations of some interface methods.
 	/// </summary>
 	public static class Graph
 	{
@@ -26,53 +26,56 @@ namespace PathFinding
 		/// <summary>
 		/// Get directly adjacent elements (does not include diagonals).
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="graph"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
+		/// <typeparam name="T">Type of elements contained in graph.</typeparam>
+		/// <param name="graph">Graph to get elements from.</param>
+		/// <param name="x">X coordinate to get adjacent elements of.</param>
+		/// <param name="y">Y coordinate to get adjacent elements of.</param>
+		/// <returns>List of surrounding elements.</returns>
 		public static List<T> GetAdjacentElements<T>(IGraph<T> graph, int x, int y)
 		{
-			List<T> adjacentCells = new List<T>();
-
+			// Note: The following could also be done with a mod operation.
+			// Sounds cool. Looks neat.
+			// But mods are a performance hit. And can be confusing at a glance.
+			// So we go manual. It's only three rows, anyway.
+			List<T> adjacentElements = new List<T>();
 			int maxX = graph.Width - 1;
 			int maxY = graph.Height - 1;
-
-			// Get cells row by row.
-			// Starts at top cell, skips every other, so diagonals not included.
-			for (int adjacentY = y; adjacentY < y + 2; adjacentY += 2)
+			int rowCounter = 0;
+			Position[] nodes = 
 			{
-				if ((adjacentY < 0) ||
-					(adjacentY > maxY))
+				new Position(x, y - 1),	// Up
+				new Position(x - 1, y),	// Left
+				new Position(x + 1, y),	// Right
+				new Position(x, y + 1)	// Down
+			};
+
+			foreach (Position node in nodes)
+			{
+				if ((node.X < 0) ||
+					(node.Y < 0) ||
+					(node.X > maxX) ||
+					(node.Y > maxY))
 					continue;
-
-				for (int adjacentX = x; adjacentX < x + 2; adjacentX += 2)
-				{
-					if ((adjacentX < 0) ||
-						(adjacentX > maxX) ||
-						(adjacentX == x && adjacentY == y))
-						continue;
-
-					adjacentCells.Add(graph.GetElement(adjacentX, adjacentY));
-				}
+				
+				adjacentElements.Add(graph.GetElement(node.X, node.Y));
 			}
 
-			return adjacentCells;
+			return adjacentElements;
 		}
+		
 
 
 		/// <summary>
 		/// Get all surrounding elements (including diagonals).
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="graph"></param>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
+		/// <typeparam name="T">Type of elements contained in graph.</typeparam>
+		/// <param name="graph">Graph to get elements from.</param>
+		/// <param name="x">X coordinate to get adjacent elements of.</param>
+		/// <param name="y">Y coordinate to get adjacent elements of.</param>
+		/// <returns>List of surrounding elements.</returns>
 		public static List<T> GetSurroundingElements<T>(IGraph<T> graph, int x, int y)
 		{
-			List<T> surroundingCells = new List<T>();
-
+			List<T> surroundingElements = new List<T>();
 			int maxX = graph.Width - 1;
 			int maxY = graph.Height - 1;
 
@@ -90,11 +93,11 @@ namespace PathFinding
 						(adjacentX == x && adjacentY == y))
 						continue;
 
-					surroundingCells.Add(graph.GetElement(adjacentX, adjacentY));
+					surroundingElements.Add(graph.GetElement(adjacentX, adjacentY));
 				}
 			}
 
-			return surroundingCells;
+			return surroundingElements;
 		}
 
 	}

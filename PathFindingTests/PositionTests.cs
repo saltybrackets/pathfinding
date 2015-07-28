@@ -2,10 +2,10 @@
 using PathFinding;
 
 
-namespace PathFindingTests.Geometry
+namespace PathFindingTests
 {
 	
-	public class PointTests
+	public class PositionTests
 	{
 
 		[TestClass]

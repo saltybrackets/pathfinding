@@ -11,6 +11,9 @@ using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace PathFinding.Maps
 {
+	/// <summary>
+	/// Encapsulates feature and coordinate data about a map.
+	/// </summary>
 	public class Map : IGraph<MapFeature>
 	{
 		#region Constants
@@ -27,6 +30,10 @@ namespace PathFinding.Maps
 
 
 		#region Constructors
+		/// <summary>
+		/// Create a new Map instance from an image.
+		/// </summary>
+		/// <param name="bitmap"></param>
 		public Map(Bitmap bitmap)
 		{
 			LoadBitmap(bitmap);
@@ -35,30 +42,47 @@ namespace PathFinding.Maps
 
 
 		#region Properties
+		/// <summary>
+		/// End point of the map.
+		/// Is always the last found End feature during image parsing.
+		/// </summary>
 		public Position EndPosition
 		{
 			get { return this.endPosition; }
 		}
 
 
+		/// <summary>
+		/// Orthogonal matrix of map features.
+		/// </summary>
 		public MapFeature[,] Features
 		{
 			get { return this.features; }
 		}
 
 
+		/// <summary>
+		/// Unit height of the map.
+		/// </summary>
 		public int Height
 		{
 			get { return this.features.GetLength(1); }
 		}
 
 
+		/// <summary>
+		/// Start point of the map.
+		/// Is always the last found Start feature during image parsing.
+		/// </summary>
 		public Position StartPosition
 		{
 			get { return this.startPosition; }
 		}
 
 
+		/// <summary>
+		/// Unit width of the map.
+		/// </summary>
 		public int Width
 		{
 			get { return this.features.GetLength(0); }
@@ -66,18 +90,34 @@ namespace PathFinding.Maps
 		#endregion
 
 
-		public List<MapFeature> GetAdjacentElements(int x, int y)
+		/// <summary>
+		/// Gets all adjacent map features surrounding a given coordinate.
+		/// </summary>
+		/// <param name="x">Horizontal X coordinate.</param>
+		/// <param name="y">Vertical Y coordinate.</param>
+		/// <returns></returns>
+		public List<MapFeature> GetNeighborElements(int x, int y)
 		{
 			return Graph.GetAdjacentElements(this, x, y);
 		}
 
 
+		/// <summary>
+		/// Get the map feature located at the given coordinate.
+		/// </summary>
+		/// <param name="x">Horizontal X coordinate.</param>
+		/// <param name="y">Vertical Y coordinate.</param>
+		/// <returns></returns>
 		public MapFeature GetElement(int x, int y)
 		{
 			return this.features[x, y];
 		}
 
 
+		/// <summary>
+		/// Get total number of "empty" map features in the map.
+		/// </summary>
+		/// <returns></returns>
 		public int GetEmptyPixelsAmount()
 		{
 			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
@@ -85,6 +125,10 @@ namespace PathFinding.Maps
 		}
 
 
+		/// <summary>
+		/// Get total number of "end" map features in the map.
+		/// </summary>
+		/// <returns></returns>
 		public int GetEndPixelsAmount()
 		{
 			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
@@ -93,10 +137,8 @@ namespace PathFinding.Maps
 
 
 		/// <summary>
-		/// Encode and save out map feature data to a bitmap file.
+		/// Encode map feature data to a pixel byte array..
 		/// </summary>
-		/// <param name="mapData">MapData containing map features to be encoded.</param>
-		/// <param name="path">Path to save bitmap file to.</param>
 		public byte[] GetPixels()
 		{
 			int width = this.Width;
@@ -138,6 +180,10 @@ namespace PathFinding.Maps
 		}
 
 
+		/// <summary>
+		/// Get total number of "start" map features in the map.
+		/// </summary>
+		/// <returns></returns>
 		public int GetStartPixelsAmount()
 		{
 			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
@@ -145,12 +191,10 @@ namespace PathFinding.Maps
 		}
 
 
-		public List<MapFeature> GetSurroundingElements(int x, int y)
-		{
-			return Graph.GetSurroundingElements(this, x, y);
-		}
-
-
+		/// <summary>
+		/// Get total number of "wall" features in the map.
+		/// </summary>
+		/// <returns></returns>
 		public int GetWallPixelsAmount()
 		{
 			MapFeature[] mapFeatures = this.features.Cast<MapFeature>().ToArray();
@@ -230,6 +274,10 @@ namespace PathFinding.Maps
 		}
 
 
+		/// <summary>
+		/// Get a string representation of this object.
+		/// </summary>
+		/// <returns>String representation.</returns>
 		public override string ToString()
 		{
 			return new StringBuilder()
